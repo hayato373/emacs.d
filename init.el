@@ -1,5 +1,3 @@
-
-
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
@@ -103,7 +101,16 @@
 (add-hook 'python-mode-hook 'jedi:setup)
 (add-to-list 'company-backends 'company-jedi)
 
+;; docker
+(require 'docker)
 
+(require 'dockerfile-mode)
+(add-to-list 'auto-mode-alist '("Dockerfile\\'" .dockerfile-mode))
+
+(require 'docker-compose-mode)
+
+(require 'docker-tramp-compat)
+(set-variable 'docker-tramp-use-names t)
 
 
 
@@ -279,7 +286,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (company-jedi flycheck japanese-holidays rustic minimap leaf-keywords hydra elpy el-get blackout))))
+	(docker-compose-mode dockerfile-mode docker company-jedi flycheck japanese-holidays rustic minimap leaf-keywords hydra elpy el-get blackout))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
