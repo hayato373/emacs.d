@@ -116,8 +116,9 @@
 ;; 括弧を自動で補完する
 (electric-pair-mode 1)
 
-;; tabにスペース４つを利用
-(setq-default tab-width 4 indent-tabs-mode nil)
+;; tab
+(setq-default tab-width 4)
+(setq-default indent-tabs-mode t)
 
 ;; デフォルトの起動時のメッセージを表示しない
 (setq inhibit-startup-message t)
@@ -144,6 +145,9 @@
 ;; keybind
 (global-set-key "\C-h" 'delete-backward-char)
 (global-set-key "\C-c\C-h" 'help-command)
+
+;; titlebar
+(setq frame-title-format "%f")
 
 ;; メニューバーの非表示
 (menu-bar-mode -1)
