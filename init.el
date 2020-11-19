@@ -112,7 +112,9 @@
 (require 'docker-tramp-compat)
 (set-variable 'docker-tramp-use-names t)
 
-
+;;
+(load "saveplace")
+(setq-default save-place t)
 
 ;; *.~ とかのバックアップファイルを作らない
 (setq make-backup-files nil)
@@ -125,7 +127,7 @@
 
 ;; tab
 (setq-default tab-width 4)
-(setq-default indent-tabs-mode t)
+(setq-default indent-tabs-mode -1)
 
 ;; デフォルトの起動時のメッセージを表示しない
 (setq inhibit-startup-message t)
@@ -168,9 +170,6 @@
 ;;
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
-
-;; indent
-(electric-indent-mode -1)
 
 ;; Comment line
 (global-set-key (kbd "s-/") 'comment-line)
