@@ -10,15 +10,6 @@
 ;; --------------------------------------------------------
 
 ;; packages
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
-(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
-(package-initialize)
-(unless package-archive-contents (package-refresh-contents))(eval-and-compile
-  (when (or load-file-name byte-compile-current-file)
-    (setq user-emacs-directory
-          (expand-file-name
-           (file-name-directory (or load-file-name byte-compile-current-file))))))
 
 (eval-and-compile
   (customize-set-variable
@@ -29,6 +20,7 @@
   (unless (package-installed-p 'leaf)
     (package-refresh-contents)
     (package-install 'leaf))
+  )
 
 ;; ------------------------------------------------------------------------
 
@@ -44,7 +36,7 @@
 
     :config
     ;; initialize leaf-keywords.el
-    (leaf-keywords-init)))
+    (leaf-keywords-init))
 
 (leaf *delete-file-if-no-contents
   :preface (defun my:delete-file-if-no-contents ()
@@ -75,15 +67,13 @@
 
 (leaf eldoc
   :hook (emacs-lisp-mode-hook . turn-on-eldoc-mode)
-  :blackout t
   :preface
   (defun my:shutup-eldoc-message (f &optional string)
     (unless (active-minibuffer-window)
       (funcall f string)))
   :advice
   (:around eldoc-message
-           my:shutup-eldoc-message)
-  )
+           my:shutup-eldoc-message))
 
 (leaf midnight
   :custom
@@ -91,25 +81,7 @@
   :hook
   (emacs-startup-hook . midnight-mode))
 
-(eval-and-compile
-  (leaf bytecomp
-    :custom
-    ((byte-compile-warnings . '(not
-                                obsolete
-                                free-vars
-                                unresolved
-                                callargs
-                                redefine
-                                noruntime
-                                cl-functions
-                                interactive-only
-                                make-local))
-     (debug-on-error        . nil))
-    :config
-    (let ((win (get-buffer-window "*Compile-Log*")))
-      (when win (delete-window win)))
-    )
-  )
+
 
 (leaf autorevert
   :custom
@@ -117,17 +89,6 @@
   :hook
   (emacs-startup-hook . global-auto-revert-mode)
   )
-
-(leaf save-place
-  :custom
-  `((save-place . t)
-    (save-place-file))
-  :hook (emacs-startup-hook . save-place-mode)
-  :config
-  (setq save-place-ingore-files-regexp
-        (format "\\(%s\\)\\|\\(%s\\)"
-                save-place-ignore-files-regexp
-                tramp-file-name-regexp)))
 
 (leaf migemo
   :if (executable-find "cmigemo")
@@ -326,7 +287,6 @@
   :url "https://github.com/abo-abo/swiper"
   :emacs>= 24.5
   :ensure t
-  :blackout t
   :leaf-defer nil
   :custom ((ivy-initial-inputs-alist . nil)
            (ivy-re-builders-alist . '((t . ivy--regex-fuzzy)
@@ -350,7 +310,6 @@
     :url "https://github.com/abo-abo/swiper"
     :emacs>= 24.5
     :ensure t
-    :blackout t
     :bind (("C-S-s" . counsel-imenu)
            ("C-x C-r" . counsel-recentf))
     :custom `((counsel-yank-pop-separator . "\n----------\n")
@@ -455,7 +414,6 @@
   :url "http://company-mode.github.io/"
   :emacs>= 24.3
   :ensure t
-  :blackout t
   :leaf-defer nil
   :bind ((company-active-map
           ("M-n" . nil)
@@ -476,7 +434,6 @@
   :doc "Company mode backend for C/C++ header files"
   :req "emacs-24.1" "company-0.8"
   :tag "company" "development" "emacs>=24.1"
-  :added "2020-03-25"
   :emacs>= 24.1
   :ensure t
   :after company
@@ -487,7 +444,6 @@
 ;; yasnippet
 (leaf yasnippet
   :ensure t
-  :blackout t
   :disabled t
   :custom
   :hook (after-init-hook . yas-global-mode)
@@ -569,14 +525,6 @@
  '(package-selected-packages
    (quote
 	(ibuffer-vc docker-compose-mode dockerfile-mode docker company-jedi flycheck japanese-holidays rustic minimap leaf-keywords hydra elpy el-get blackout))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
- ;; Local Variables:
-;; indent-tabs-mode: nil
-;; End:
+
 
 ;;; init.el ends here
